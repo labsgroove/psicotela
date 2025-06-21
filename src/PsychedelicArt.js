@@ -138,4 +138,25 @@ const PsychedelicArt = () => {
   );
 };
 
+return (
+  <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
+    {/* Imagem sobreposta, altura total da tela */}
+    <img
+      src="https://i.ibb.co/jPSYgp4d/friend.png"
+      alt="Friend"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        height: "100vh",
+        width: "auto",
+        minWidth: "100vw",
+        zIndex: 10, // maior que o canvas (que está com z-0)
+        pointerEvents: "none" // para não bloquear interações
+      }}
+    />
+    <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-90" />
+  </div>
+);
+
 export default PsychedelicArt;
