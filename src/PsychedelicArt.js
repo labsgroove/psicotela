@@ -12,29 +12,24 @@ const fragmentShaderSource = `
   uniform float u_time;
   uniform vec2 u_resolution;
   uniform vec2 u_offset;
-
+  
   void main() {
     vec2 uv = (gl_FragCoord.xy - u_offset) / u_resolution.xy;
     vec2 p = uv - 0.5;
     p.x *= u_resolution.x / u_resolution.y;
-
+    
     float len = length(p);
     float angle = atan(p.y, p.x);
-
+    
     float pattern = cos(10.0 * angle - u_time) * sin(10.0 * len + u_time);
     float shapePattern = cos(len * 15.0 - u_time) * sin(angle * 12.0 + u_time);
     float finalPattern = mix(pattern, shapePattern, 0.7);
-
-    // Paleta: preto, turquesa (0, 1, 1), roxo (0.5, 0, 0.5)
-    float t = sin(u_time + finalPattern) * 0.5 + 0.5;
-    vec3 black = vec3(0.0);
-    vec3 turquoise = vec3(0.0, 1.0, 1.0);
-    vec3 purple = vec3(0.5, 0.0, 0.5);
     
-    vec3 color = mix(turquoise, purple, t);
-    color = mix(black, color, smoothstep(0.2, 0.8, finalPattern));
-
-    gl_FragColor = vec4(color, 1.0);
+    float colorR = cos(u_time - angle * 5.0 - finalPattern) * 0.5 + 0.5;
+    float colorG = cos(u_time - len * 10.0 + finalPattern) * 0.5 + 0.5;
+    float colorB = sin(u_time * 0.5 - angle * 2.0 - finalPattern) * 0.5 + 0.5;
+    
+    gl_FragColor = vec4(colorR, colorG, colorB, 1.0);
   }
 `;
 
